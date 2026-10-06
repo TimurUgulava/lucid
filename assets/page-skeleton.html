@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html lang="ru" data-preset="editorial-dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Заголовок объяснения — lucid</title>
+<!-- Шрифты: заменить ссылкой из пресета профиля -->
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=Spectral:ital,wght@0,400;0,500;0,600;1,400;1,500&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+/* Переменные: заменить на :root из пресета профиля. Имена одинаковые у всех пресетов. */
+:root {
+  --bg: #0d0f12; --bg-2: #14171c; --bg-3: #1a1e25;
+  --ink: #ededeb; --ink-dim: #b8b4ad; --muted: #8c8880;
+  --accent: #d97757; --accent-2: #f0916d;
+  --ok: #88b88a; --warn: #d4a85b; --err: #c87171;
+  --rule: #1f2530;
+  --display: 'Playfair Display', Georgia, serif;
+  --body: 'Spectral', Georgia, serif;
+  --mono: 'JetBrains Mono', monospace;
+  --radius: 6px; --rule-w: 1px;
+}
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body { margin: 0; background: var(--bg); color: var(--ink); font: 400 18px/1.6 var(--body); }
+a { color: var(--accent); }
+.read { max-width: 680px; margin: 0 auto; padding: 0 24px; }
+.wide { max-width: 1240px; margin: 0 auto; padding: 0 32px; }
+
+/* Навигация по блокам */
+nav.top { position: sticky; top: 0; z-index: 10; background: color-mix(in srgb, var(--bg) 88%, transparent); backdrop-filter: blur(8px); border-bottom: var(--rule-w) solid var(--rule); }
+nav.top ol { list-style: none; display: flex; gap: 4px; margin: 0 auto; padding: 10px 32px; max-width: 1240px; overflow-x: auto; }
+nav.top a { font: 500 12px var(--mono); color: var(--muted); text-decoration: none; padding: 6px 10px; border-radius: var(--radius); white-space: nowrap; }
+nav.top a.active { color: var(--ink); background: var(--bg-3); }
+
+/* Шапка: заголовок слева, вывод и «зачем» справа */
+header.hero { padding: 88px 0 64px; }
+.hero-grid { display: grid; grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr); gap: 56px; align-items: end; }
+.eyebrow { font: 500 12px var(--mono); letter-spacing: .12em; text-transform: uppercase; color: var(--accent); margin-bottom: 18px; }
+h1 { margin: 0; font: 700 clamp(36px, 4.6vw, 84px)/1.02 var(--display); letter-spacing: -.015em; }
+h1 em, h2 em { font-style: italic; color: var(--accent); }
+.lead { font: 400 clamp(19px, 1.6vw, 24px)/1.45 var(--body); color: var(--ink); margin: 0 0 14px; }
+.why { margin: 0 0 14px; color: var(--ink-dim); }
+.why b { color: var(--ink); font-weight: 600; }
+.meta { font: 400 13px var(--mono); color: var(--muted); }
+
+/* Блок: слева утверждение и подпись, справа форма; .full — форма во всю ширину */
+section.block { padding: 72px 0; border-top: var(--rule-w) solid var(--rule); }
+.block-grid { display: grid; grid-template-columns: minmax(280px, 1fr) minmax(0, 2fr); gap: 56px; align-items: start; }
+section.block.full .block-grid { grid-template-columns: 1fr; }
+section.block.full .block-text { max-width: 820px; }
+.block-head { display: flex; align-items: baseline; gap: 16px; margin-bottom: 20px; }
+.block-num { font: italic 400 clamp(26px, 3vw, 40px)/1 var(--display); color: var(--accent); }
+h2 { margin: 0; font: 700 clamp(24px, 2.6vw, 38px)/1.12 var(--display); letter-spacing: -.01em; }
+.tag { display: inline-block; font: 500 12px var(--mono); letter-spacing: .06em; text-transform: uppercase; padding: 4px 9px; border: var(--rule-w) solid var(--rule); border-radius: var(--radius); color: var(--ink-dim); vertical-align: middle; margin-left: 10px; }
+.tag.analogy { border-color: var(--warn); color: var(--warn); }
+.tag.addition { border-color: var(--ok); color: var(--ok); }
+.visual { margin: 0; min-width: 0; }
+.visual svg { width: 100%; height: auto; display: block; }
+.caption { margin: 0; color: var(--ink); }
+.caption b { font-weight: 600; }
+details.source { margin-top: 18px; }
+details.source summary { cursor: pointer; font: 500 13px var(--mono); color: var(--muted); list-style: none; }
+details.source summary::before { content: '› '; }
+details.source[open] summary::before { content: '⌄ '; }
+details.source blockquote { margin: 12px 0 0; padding: 12px 18px; border-left: 2px solid var(--accent); color: var(--ink-dim); font-style: italic; }
+details.source cite { display: block; margin-top: 6px; font: 400 12px var(--mono); color: var(--muted); font-style: normal; }
+
+/* ===== Формы (visual-forms.md). Разметка каждой — в assets/forms.html ===== */
+/* timeline: линия с узлами */
+.timeline { display: grid; grid-auto-flow: column; grid-auto-columns: 1fr; gap: 8px; position: relative; padding-top: 18px; }
+.timeline::before { content: ''; position: absolute; left: 0; right: 0; top: 24px; height: 2px; background: var(--rule); }
+.tl-node { position: relative; padding: 24px 12px 0 0; }
+.tl-node::before { content: ''; position: absolute; left: 0; top: 0; width: 14px; height: 14px; border-radius: 50%; background: var(--bg); border: 3px solid var(--accent); }
+.tl-node .tl-when { font: 500 12px var(--mono); color: var(--accent); }
+.tl-node .tl-title { font: 600 18px var(--display); margin: 4px 0 2px; }
+.tl-node .tl-sub { font-size: 15px; color: var(--ink-dim); }
+.timeline.vertical { grid-auto-flow: row; padding: 0 0 0 26px; }
+.timeline.vertical::before { left: 6px; right: auto; top: 0; bottom: 0; width: 2px; height: auto; }
+.timeline.vertical .tl-node { padding: 0 0 20px; }
+.timeline.vertical .tl-node::before { left: -26px; top: 6px; }
+
+/* structure: из чего состоит; вложенность — вложенными .group */
+.structure { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 12px; }
+.structure .box { padding: 14px 16px; border: var(--rule-w) solid var(--rule); border-radius: var(--radius); background: var(--bg-2); }
+.structure .box b { display: block; font: 600 17px var(--display); margin-bottom: 4px; }
+.structure .box span { font-size: 15px; color: var(--ink-dim); }
+.structure .group { grid-column: 1 / -1; padding: 12px; border: var(--rule-w) dashed var(--rule); border-radius: var(--radius); display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 10px; }
+.structure .group > .group-title { grid-column: 1 / -1; font: 500 12px var(--mono); letter-spacing: .06em; text-transform: uppercase; color: var(--muted); }
+
+/* compare: таблица (на телефоне складывается через data-col) или панели рядом */
+table { width: 100%; border-collapse: collapse; font-size: 16px; }
+th, td { text-align: left; padding: 10px 12px; border-bottom: var(--rule-w) solid var(--rule); vertical-align: top; }
+th { font: 500 12px var(--mono); letter-spacing: .06em; text-transform: uppercase; color: var(--muted); }
+td.num { font-family: var(--mono); font-variant-numeric: tabular-nums; }
+td.diff { color: var(--accent); font-weight: 600; }
+.panels { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 16px; }
+.panel { padding: 18px 20px; border: var(--rule-w) solid var(--rule); border-radius: var(--radius); background: var(--bg-2); }
+.panel h4 { margin: 0 0 10px; font: 600 18px var(--display); }
+.panel.good h4 { color: var(--ok); } .panel.bad h4 { color: var(--err); }
+.panel ul { margin: 0; padding-left: 18px; font-size: 15px; color: var(--ink-dim); }
+.panel li { margin: 4px 0; }
+
+/* slider: ползунок с выводом */
+.slider { display: grid; gap: 14px; padding: 12px 0; }
+.slider label { display: flex; justify-content: space-between; font: 500 13px var(--mono); color: var(--muted); }
+.slider output { color: var(--ink); }
+input[type=range] { width: 100%; accent-color: var(--accent); }
+.readout { font: 700 clamp(36px, 4vw, 60px)/1 var(--display); color: var(--accent); font-variant-numeric: tabular-nums; }
+.readout small { font: 400 14px var(--mono); color: var(--muted); margin-left: 10px; }
+
+/* causal: цепочка причина → следствие, ветвление через .branches */
+.causal { display: flex; flex-wrap: wrap; align-items: stretch; gap: 10px; }
+.causal .node { flex: 1 1 160px; padding: 14px 16px; border: var(--rule-w) solid var(--rule); border-radius: var(--radius); background: var(--bg-2); }
+.causal .node b { display: block; font: 600 17px var(--display); }
+.causal .node span { font-size: 15px; color: var(--ink-dim); }
+.causal .node.cause { border-color: var(--accent); }
+.causal .arrow { align-self: center; font: 400 26px var(--mono); color: var(--accent); flex: 0 0 auto; }
+.causal .branches { flex: 1 1 100%; display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 10px; }
+
+/* quantity: полосы с честной шкалой от нуля */
+.quantity { display: grid; gap: 10px; }
+.bar-row { display: grid; grid-template-columns: minmax(90px, 160px) 1fr auto; gap: 12px; align-items: center; font-size: 15px; }
+.bar-row .bar { height: 22px; background: var(--bg-3); border-radius: var(--radius); overflow: hidden; }
+.bar-row .bar i { display: block; height: 100%; background: var(--accent); width: 0; transition: width .6s ease; }
+.reveal.in .bar-row .bar i, .bar-row.in .bar i { width: var(--w); }
+.bar-row .val { font: 500 14px var(--mono); color: var(--ink); font-variant-numeric: tabular-nums; }
+
+/* trend: SVG-линия, подписаны крайние точки */
+.trend svg { max-height: 320px; }
+.trend .axis { stroke: var(--rule); stroke-width: 2; }
+.trend .line { fill: none; stroke: var(--accent); stroke-width: 3; }
+.trend .pt { fill: var(--accent); }
+.trend text { font: 500 13px var(--mono); fill: var(--ink-dim); }
+
+/* term: карточка термина */
+.term-card { padding: 20px 22px; border-left: 3px solid var(--accent); background: var(--bg-2); border-radius: 0 var(--radius) var(--radius) 0; }
+.term-card .term-name { font: 600 22px var(--display); margin-bottom: 6px; }
+.term-card .term-orig { font: 400 13px var(--mono); color: var(--muted); margin-left: 8px; }
+.term-card .term-def { margin: 0 0 8px; }
+.term-card .term-ex { margin: 0; font-size: 15px; color: var(--ink-dim); }
+
+/* decision: дерево выбора */
+.tree, .tree ul { list-style: none; margin: 0; padding: 0; }
+.tree ul { margin: 8px 0 0 22px; padding-left: 16px; border-left: var(--rule-w) solid var(--rule); }
+.tree li { margin: 6px 0; }
+.tree .q { display: inline-block; padding: 8px 12px; border: var(--rule-w) solid var(--accent); border-radius: var(--radius); font-weight: 600; }
+.tree .a { font: 500 12px var(--mono); color: var(--accent); margin-right: 8px; }
+.tree .leaf { display: inline-block; padding: 6px 10px; background: var(--bg-3); border-radius: var(--radius); }
+
+/* walkthrough: пошаговое раскрытие; .accumulate — пройденные шаги остаются */
+.steps .step { display: none; }
+.steps .step.current { display: block; }
+.steps.accumulate .step { display: block; opacity: .35; }
+.steps.accumulate .step.done, .steps.accumulate .step.current { opacity: 1; }
+.steps.accumulate .step.current { border-left: 2px solid var(--accent); padding-left: 14px; }
+.steps .step h3 { margin: 0 0 6px; font: 600 20px var(--display); }
+.steps .step p { margin: 0 0 10px; color: var(--ink-dim); }
+.steps-nav { display: flex; align-items: center; gap: 12px; margin-top: 16px; font: 500 13px var(--mono); color: var(--muted); }
+.steps-nav button, .toggle button { font: 500 13px var(--mono); padding: 8px 14px; border: var(--rule-w) solid var(--rule); background: var(--bg-2); color: var(--ink); border-radius: var(--radius); cursor: pointer; }
+.steps-nav button:disabled { opacity: .4; cursor: default; }
+.toggle .toggle-bar { display: flex; gap: 8px; margin-bottom: 14px; }
+.toggle button.active { border-color: var(--accent); color: var(--accent); }
+.toggle [data-panel] { display: none; }
+.toggle [data-panel].active { display: block; }
+
+/* cards: одинаковые карточки для однородных объектов */
+.cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 14px; }
+.card { padding: 16px 18px; background: var(--bg-2); border: var(--rule-w) solid var(--rule); border-radius: var(--radius); }
+.card h3 { margin: 0 0 6px; font: 600 19px var(--display); }
+.card p { margin: 0; color: var(--ink-dim); font-size: 15px; }
+
+/* Появление при скролле */
+.reveal { opacity: 0; transform: translateY(16px); transition: opacity .5s ease, transform .5s ease; }
+.reveal.in { opacity: 1; transform: none; }
+
+/* Хвост: за кадром */
+section.tail { padding: 64px 0; border-top: var(--rule-w) solid var(--rule); }
+section.tail h2 { font-size: clamp(22px, 2.4vw, 30px); margin-bottom: 20px; }
+footer.foot { padding: 40px 0 80px; color: var(--muted); font: 400 13px var(--mono); }
+
+@media (max-width: 840px) {
+  /* подписи внутри SVG масштабируются вместе с ним: на телефоне увеличиваем в единицах viewBox */
+  .trend text, .visual svg text { font-size: 30px; }
+  .wide { padding: 0 20px; }
+  header.hero { padding: 56px 0 40px; }
+  section.block { padding: 48px 0; }
+  .hero-grid, .block-grid { grid-template-columns: 1fr; gap: 24px; }
+  .block-head { flex-direction: column; gap: 6px; }
+  .timeline { grid-auto-flow: row; padding: 0 0 0 26px; }
+  .timeline::before { left: 6px; right: auto; top: 0; bottom: 0; width: 2px; height: auto; }
+  .timeline .tl-node { padding: 0 0 18px; }
+  .timeline .tl-node::before { left: -26px; top: 6px; }
+  .causal { flex-direction: column; }
+  .causal .arrow { transform: rotate(90deg); align-self: flex-start; margin-left: 20px; }
+  table.stack thead { display: none; }
+  table.stack tr { display: block; padding: 8px 0; border-bottom: var(--rule-w) solid var(--rule); }
+  table.stack td { display: flex; justify-content: space-between; gap: 12px; border: 0; padding: 4px 0; }
+  table.stack td::before { content: attr(data-col); font: 500 12px var(--mono); color: var(--muted); }
+  th, td { font-size: 14px; }
+}
+@media (prefers-reduced-motion: reduce) { .reveal { transition: none; opacity: 1; transform: none; } }
+</style>
+</head>
+<body>
+
+<nav class="top" aria-label="Блоки">
+  <ol>
+    <li><a href="#b1">1 · Короткое имя</a></li>
+    <li><a href="#b2">2 · Короткое имя</a></li>
+    <li><a href="#tail">За кадром</a></li>
+  </ol>
+</nav>
+
+<header class="hero">
+  <div class="wide hero-grid">
+    <div>
+      <div class="eyebrow">Объяснение · источник: название материала</div>
+      <h1>Главный вывод материала <em>одной фразой</em></h1>
+    </div>
+    <div>
+      <p class="lead">Одной фразой: главный вывод бытовыми словами.</p>
+      <p class="why"><b>Зачем тебе:</b> что станет понятно или что можно будет делать иначе.</p>
+      <p class="meta">N блоков · 5 минут · язык источника: английский</p>
+    </div>
+  </div>
+</header>
+
+<!-- Блок. Один на утверждение. Слева утверждение, подпись и «откуда это», справа форма. -->
+<section class="block reveal" id="b1">
+  <div class="wide block-grid">
+    <div class="block-text">
+      <div class="block-head">
+        <span class="block-num">01</span>
+        <h2>Заголовок-утверждение <em>до десяти слов</em></h2>
+      </div>
+      <p class="caption">Что видно на форме. <b>Главное выделено.</b></p>
+      <details class="source">
+        <summary>Откуда это</summary>
+        <blockquote>«Цитата источника дословно.»<cite>Раздел, страница или таймкод</cite></blockquote>
+      </details>
+    </div>
+    <div class="visual">
+      <!-- Разметка формы из assets/forms.html -->
+    </div>
+  </div>
+</section>
+
+<!-- Блок с ползунком: формула берётся из источника дословно -->
+<section class="block reveal" id="b2">
+  <div class="wide block-grid">
+    <div class="block-text">
+      <div class="block-head">
+        <span class="block-num">02</span>
+        <h2>Результат зависит от параметра <span class="tag addition">дополнение</span></h2>
+      </div>
+      <p class="caption">Что происходит при движении ползунка.</p>
+      <details class="source">
+        <summary>Откуда это</summary>
+        <blockquote>«Формула или таблица значений из источника.»<cite>Место</cite></blockquote>
+      </details>
+    </div>
+    <div class="visual slider">
+      <label>Параметр <output data-out="x">10</output></label>
+      <input type="range" min="1" max="30" value="10" data-lucid-slider="demo">
+      <div class="readout" data-out="y">—</div>
+    </div>
+  </div>
+</section>
+
+<section class="tail reveal" id="tail">
+  <div class="read">
+    <h2>За кадром намеренно</h2>
+    <ul>
+      <li>Что и почему не вошло.</li>
+    </ul>
+  </div>
+</section>
+
+<footer class="foot">
+  <div class="read">Источник: название материала, автор, дата. Собрано lucid.</div>
+</footer>
+
+<script>
+/* Механика страницы. L.slider(input, fn): fn(value) возвращает {имя: значение} для элементов data-out. */
+window.L = (function () {
+  var L = {};
+  L.steps = function (root) {
+    var steps = Array.prototype.slice.call(root.querySelectorAll('.step'));
+    if (!steps.length) return;
+    var i = 0, nav = document.createElement('div'), acc = root.classList.contains('accumulate');
+    nav.className = 'steps-nav';
+    nav.innerHTML = '<button data-prev>← назад</button><span data-pos></span><button data-next>дальше →</button>';
+    root.appendChild(nav);
+    function show() {
+      steps.forEach(function (s, k) { s.classList.toggle('current', k === i); s.classList.toggle('done', acc && k < i); });
+      nav.querySelector('[data-pos]').textContent = (i + 1) + ' / ' + steps.length;
+      nav.querySelector('[data-prev]').disabled = i === 0;
+      nav.querySelector('[data-next]').disabled = i === steps.length - 1;
+    }
+    nav.querySelector('[data-prev]').addEventListener('click', function () { if (i > 0) { i--; show(); } });
+    nav.querySelector('[data-next]').addEventListener('click', function () { if (i < steps.length - 1) { i++; show(); } });
+    show();
+  };
+  L.slider = function (input, fn) {
+    var root = input.closest('.slider') || input.parentElement;
+    function apply() {
+      var out = fn(parseFloat(input.value)) || {};
+      Object.keys(out).forEach(function (k) {
+        root.querySelectorAll('[data-out="' + k + '"]').forEach(function (el) { el.textContent = out[k]; });
+      });
+    }
+    input.addEventListener('input', apply);
+    apply();
+  };
+  L.toggle = function (root) {
+    var buttons = root.querySelectorAll('button[data-state]');
+    function set(state) {
+      buttons.forEach(function (b) { b.classList.toggle('active', b.dataset.state === state); });
+      root.querySelectorAll('[data-panel]').forEach(function (p) { p.classList.toggle('active', p.dataset.panel === state); });
+    }
+    buttons.forEach(function (b) { b.addEventListener('click', function () { set(b.dataset.state); }); });
+    if (buttons.length) set(buttons[0].dataset.state);
+  };
+  L.fmt = function (n, d) { return n.toLocaleString('ru-RU', { minimumFractionDigits: d || 0, maximumFractionDigits: d || 0 }); };
+
+  document.addEventListener('DOMContentLoaded', function () {
+    document.querySelectorAll('.steps').forEach(L.steps);
+    document.querySelectorAll('.toggle').forEach(L.toggle);
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (e) { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } });
+    }, { threshold: 0.12 });
+    document.querySelectorAll('.reveal, .bar-row').forEach(function (el) { io.observe(el); });
+    var links = document.querySelectorAll('nav.top a');
+    var spy = new IntersectionObserver(function (entries) {
+      entries.forEach(function (e) {
+        if (!e.isIntersecting) return;
+        links.forEach(function (a) { a.classList.toggle('active', a.getAttribute('href') === '#' + e.target.id); });
+      });
+    }, { rootMargin: '-40% 0px -55% 0px' });
+    document.querySelectorAll('section[id]').forEach(function (s) { spy.observe(s); });
+  });
+  return L;
+})();
+
+/* Пример формулы ползунка: заменить на зависимость из источника */
+document.addEventListener('DOMContentLoaded', function () {
+  var demo = document.querySelector('[data-lucid-slider="demo"]');
+  if (demo) L.slider(demo, function (x) { return { x: x, y: L.fmt(100 * Math.pow(1.1, x), 0) }; });
+});
+</script>
+</body>
+</html>

@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="ru" data-preset="editorial-dark">
+<head>
+<meta charset="UTF-8">
+<title>Сцена — lucid</title>
+<!-- Шрифты: ссылка из пресета профиля -->
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=Spectral:ital,wght@0,400;0,500;0,600;1,400;1,500&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+/* 1. Токены пресета: заменить блоком :root из пресета профиля. Имена одинаковые у всех пресетов. */
+:root {
+  --bg: #0d0f12; --bg-2: #14171c; --bg-3: #1a1e25;
+  --ink: #ededeb; --ink-dim: #b8b4ad; --muted: #8c8880;
+  --accent: #d97757; --accent-2: #f0916d;
+  --ok: #88b88a; --warn: #d4a85b; --err: #c87171;
+  --rule: #1f2530;
+  --display: 'Playfair Display', Georgia, serif;
+  --body: 'Spectral', Georgia, serif;
+  --mono: 'JetBrains Mono', monospace;
+  --radius: 6px; --rule-w: 1px;
+}
+/* 2. Шкала и движение сцены Full HD. Пресет может сдвинуть в разделе «Видео». */
+:root {
+  --t-title: 120px; --t-h: 84px; --t-copy: 38px; --t-note: 30px; --t-meta: 26px;
+  --display-weight: 700;
+  --fade: 440ms; --fade-rise: 12px; --caption-pause: 480ms;
+  --pad-x: 96px; --pad-top: 64px; --pad-bottom: 48px;
+  --stroke: 5px;
+}
+* { box-sizing: border-box; }
+html, body { margin: 0; width: 1920px; height: 1080px; overflow: hidden; background: var(--bg); color: var(--ink); font: 500 var(--t-copy)/1.35 var(--body); -webkit-font-smoothing: antialiased; }
+main.scene { position: relative; width: 1920px; height: 1080px; overflow: hidden; }
+h1, h2, p { margin: 0; }
+
+/* Зоны. Координаты в пикселях кадра: так композиция предсказуема и проверяема. */
+.meta { position: absolute; top: var(--pad-top); left: var(--pad-x); display: flex; align-items: center; gap: 22px; font: 500 var(--t-meta)/1 var(--mono); letter-spacing: .08em; text-transform: uppercase; color: var(--accent); }
+.meta::before { content: ''; width: 44px; height: 4px; background: currentColor; }
+.source { position: absolute; left: var(--pad-x); bottom: var(--pad-bottom); font: 500 var(--t-meta)/1 var(--body); color: var(--muted); }
+.folio { position: absolute; right: var(--pad-x); bottom: var(--pad-bottom); font: 500 var(--t-meta)/1 var(--mono); color: var(--muted); font-variant-numeric: tabular-nums; }
+h1 { font: var(--display-weight) var(--t-h)/1.1 var(--display); letter-spacing: -.02em; text-wrap: balance; }
+h1 em, h2 em { font-style: italic; color: var(--accent); }
+.caption { font: 500 var(--t-copy)/1.35 var(--body); color: var(--ink); }
+.caption b { font-weight: 600; color: var(--accent); }
+.note { font: 500 var(--t-note)/1.4 var(--body); color: var(--ink-dim); }
+.stage { position: absolute; }
+.stage svg { display: block; width: 100%; height: 100%; overflow: visible; }
+.stage svg text { font-family: var(--body); fill: var(--ink); }
+.stage svg .svg-copy { font-size: var(--t-copy); font-weight: 600; }
+.stage svg .svg-note { font-size: var(--t-note); font-weight: 500; fill: var(--ink-dim); }
+.stage svg .svg-meta { font-size: var(--t-meta); font-weight: 500; fill: var(--muted); font-family: var(--mono); }
+.stage svg .line { stroke: var(--rule); stroke-width: var(--stroke); fill: none; }
+.stage svg .link { stroke: var(--accent); stroke-width: var(--stroke); fill: none; }
+.stage svg .card { fill: var(--bg-2); stroke: var(--rule); stroke-width: 2; }
+.stage svg .hot { fill: var(--accent); }
+.stage svg .paper { fill: var(--bg-3); }
+
+/* Раскладки. Одна на сцену, класс на main.scene. */
+/* wide: заголовок сверху, схема во всю ширину, подпись снизу */
+.layout-wide h1 { position: absolute; left: var(--pad-x); top: 150px; width: 1728px; }
+.layout-wide .stage { left: var(--pad-x); top: 340px; width: 1728px; height: 500px; }
+.layout-wide .caption { position: absolute; left: var(--pad-x); top: 880px; width: 1728px; }
+/* split: текст слева, объект справа */
+.layout-split h1 { position: absolute; left: var(--pad-x); top: 160px; width: 760px; }
+.layout-split .caption { position: absolute; left: var(--pad-x); top: 470px; width: 760px; }
+.layout-split .stage { left: 960px; top: 150px; width: 864px; height: 780px; }
+/* end: финал без объекта, заголовок и подпись колонкой по центру высоты */
+.layout-end { display: flex; flex-direction: column; justify-content: center; gap: 44px; padding: 0 var(--pad-x); }
+.layout-end h1 { position: static; width: 1728px; font-size: calc(var(--t-h) * 1.1); }
+.layout-end .stage { display: none; }
+.layout-end .caption { position: static; width: 1500px; color: var(--ink-dim); }
+/* tall: заголовок слева, высокий объект справа, подпись под заголовком */
+.layout-tall h1 { position: absolute; left: var(--pad-x); top: 150px; width: 700px; }
+.layout-tall .caption { position: absolute; left: var(--pad-x); top: 640px; width: 700px; }
+.layout-tall .stage { left: 900px; top: 120px; width: 924px; height: 840px; }
+
+/* Появление: элементы с data-at ждут времени; opacity и подъём ставит lucidSeek, без CSS-переходов,
+   чтобы любой кадр был детерминирован. */
+[data-at] { opacity: 0; will-change: opacity, transform; }
+svg [data-at] { transform: none; }
+
+/* Таймлайн-пример: линия дорисовывается CSS-анимацией, которую рендер перематывает */
+.draw { stroke-dasharray: 2000; stroke-dashoffset: 2000; animation: draw 2s linear forwards; animation-play-state: paused; }
+@keyframes draw { to { stroke-dashoffset: 0; } }
+.counter { font: 700 180px/1 var(--display); color: var(--accent); font-variant-numeric: tabular-nums; }
+</style>
+</head>
+<body>
+<main class="scene layout-wide">
+  <p class="meta">Блок 1 из 7</p>
+  <h1>Заголовок-утверждение <em>до десяти слов</em></h1>
+
+  <!-- Площадка: одна визуальная форма, один доминирующий объект. У каждого объекта id и data-at
+       или data-at-word. Подпись внутри объекта лежит в его группе. -->
+  <section class="stage" id="stage">
+    <svg viewBox="0 0 1728 500" xmlns="http://www.w3.org/2000/svg">
+      <path class="line" d="M100 250H1628"/>
+      <path class="link draw" d="M100 250H1628" id="tl-line" data-at="0.4"/>
+      <g id="step-1" data-at-word="3">
+        <circle cx="200" cy="250" r="30" class="card"/>
+        <text x="200" y="336" text-anchor="middle" class="svg-copy">Первый шаг</text>
+        <text x="200" y="396" text-anchor="middle" class="svg-note">подпись</text>
+      </g>
+      <g id="step-2" data-at-word="9">
+        <circle cx="864" cy="250" r="30" class="card"/>
+        <text x="864" y="336" text-anchor="middle" class="svg-copy">Второй шаг</text>
+        <text x="864" y="396" text-anchor="middle" class="svg-note">подпись</text>
+      </g>
+      <g id="step-3" data-at-word="15">
+        <circle cx="1528" cy="250" r="30" class="card"/>
+        <text x="1528" y="336" text-anchor="middle" class="svg-copy">Третий шаг</text>
+        <text x="1528" y="396" text-anchor="middle" class="svg-note">подпись</text>
+      </g>
+    </svg>
+  </section>
+
+  <!-- Внешняя подпись ждёт все объекты площадки: data-after="@stage". Можно перечислить id через запятую. -->
+  <p class="caption" data-role="caption" data-at="0" data-after="@stage">Что видно на схеме: <b>главное выделено</b>, одно-два предложения</p>
+
+  <p class="source">Источник — название материала</p>
+  <p class="folio">02 / 09</p>
+</main>
+
+<script>
+/* Контракт времени lucid. Рендер и проверка вызывают:
+     window.lucidPrepare()  — исходное состояние, пересчёт времён из data-at-word и data-after;
+     window.lucidSeek(ms)   — состояние сцены на момент ms, детерминировано.
+   Атрибуты: data-at (секунды), data-at-word (номер слова нарратива), data-after (id через запятую
+   или @id контейнера: все объекты с data-at внутри него), data-off (секунды, погасить),
+   data-count-to / data-dur / data-decimals (счётчик). */
+(function () {
+  var css = getComputedStyle(document.documentElement);
+  var FADE = parseFloat(css.getPropertyValue('--fade')) || 0;
+  var PAUSE = parseFloat(css.getPropertyValue('--caption-pause')) || 0;
+  var RISE = parseFloat(css.getPropertyValue('--fade-rise')) || 0;
+  if (/ms\s*$/.test(css.getPropertyValue('--fade')) === false && FADE < 10) FADE = FADE * 1000;
+  if (/ms\s*$/.test(css.getPropertyValue('--caption-pause')) === false && PAUSE < 10) PAUSE = PAUSE * 1000;
+  window.lucid = { fadeMs: FADE, pauseMs: PAUSE };
+
+  function fmt(n, decimals) {
+    var d = decimals === undefined ? 0 : parseInt(decimals, 10);
+    return n.toLocaleString('ru-RU', { minimumFractionDigits: d, maximumFractionDigits: d });
+  }
+  function ease(p) { return 1 - Math.pow(1 - p, 4); }
+  function fail(msg) { throw new Error('lucid: ' + msg); }
+  function describe(el) { return '<' + el.tagName.toLowerCase() + (el.id ? '#' + el.id : '') + '> «' + (el.textContent || '').trim().slice(0, 40) + '»'; }
+
+  window.lucidPrepare = function () {
+    var timing = window.lucidTiming || null;
+    var all = Array.prototype.slice.call(document.querySelectorAll('[data-at], [data-at-word], [data-after]'));
+    all.forEach(function (el) {
+      if (el.dataset.atBase === undefined) el.dataset.atBase = el.dataset.at === undefined ? '' : el.dataset.at;
+      var base = el.dataset.atBase === '' ? 0 : parseFloat(el.dataset.atBase);
+      if (el.dataset.atWord !== undefined) {
+        var w = parseFloat(el.dataset.atWord || '0');
+        var sec = timing && timing.words > 0 ? w / timing.words * timing.seconds : w / 2.5;
+        base = Math.max(base, Math.max(0, sec - 0.3));
+      }
+      el.dataset.atSem = base.toFixed(4);
+      el.dataset.at = base.toFixed(4);
+      delete el.dataset.atResolved;
+    });
+    var stack = [];
+    function visibleAt(el) {
+      /* момент полной видимости: собственное время + проявление, с учётом скрытых родителей */
+      if (el.dataset.atResolved !== undefined) return parseFloat(el.dataset.atResolved);
+      if (stack.indexOf(el) !== -1) fail('цикл зависимостей у ' + describe(el));
+      stack.push(el);
+      var own = el.dataset.atSem !== undefined ? parseFloat(el.dataset.atSem) : 0;
+      if (el.dataset.after) {
+        var deps = [];
+        el.dataset.after.split(',').forEach(function (ref) {
+          ref = ref.trim();
+          if (!ref) return;
+          if (ref.charAt(0) === '@') {
+            var box = document.getElementById(ref.slice(1));
+            if (!box) fail('контейнер ' + ref + ' не найден для ' + describe(el));
+            Array.prototype.forEach.call(box.querySelectorAll('[data-at]'), function (d) { if (d !== el && !el.contains(d)) deps.push(d); });
+          } else {
+            var d = document.getElementById(ref);
+            if (!d) fail('объект #' + ref + ' не найден для ' + describe(el));
+            deps.push(d);
+          }
+        });
+        var ready = 0;
+        deps.forEach(function (d) {
+          var cs = getComputedStyle(d);
+          if (cs.display === 'none' || cs.visibility === 'hidden') fail('объект ' + describe(d) + ' скрыт, подпись ' + describe(el) + ' ждёт его напрасно');
+          ready = Math.max(ready, visibleAt(d) + (d.dataset.at !== undefined ? FADE / 1000 : 0));
+        });
+        own = Math.max(own, ready + PAUSE / 1000);
+      }
+      for (var p = el.parentElement; p; p = p.parentElement) {
+        if (p.dataset && p.dataset.at !== undefined) { own = Math.max(own, visibleAt(p)); break; }
+      }
+      el.dataset.at = own.toFixed(4);
+      el.dataset.atResolved = own.toFixed(4);
+      stack.pop();
+      return own;
+    }
+    all.forEach(visibleAt);
+    document.querySelectorAll('[data-role="caption"]').forEach(function (el) {
+      if (!el.dataset.after) fail('подпись без зависимостей: ' + describe(el) + ' — добавь data-after');
+    });
+    document.getAnimations().forEach(function (a) { a.pause(); a.currentTime = 0; });
+    window.lucidSeek(0);
+  };
+
+  window.lucidSeek = function (ms) {
+    document.documentElement.style.setProperty('--t', ms);
+    var local = new Set();
+    document.querySelectorAll('[data-at]').forEach(function (el) {
+      var at = parseFloat(el.dataset.at || '0') * 1000;
+      var off = el.dataset.off ? parseFloat(el.dataset.off) * 1000 : Infinity;
+      var p = FADE > 0 ? Math.min(1, Math.max(0, (ms - at) / FADE)) : (ms >= at ? 1 : 0);
+      var e = ease(p);
+      if (ms >= off) e = 0.18 * e;
+      el.style.opacity = e;
+      if (el.namespaceURI !== 'http://www.w3.org/2000/svg' && RISE > 0) el.style.transform = 'translateY(' + (RISE * (1 - e)).toFixed(2) + 'px)';
+      el.getAnimations({ subtree: true }).forEach(function (a) { a.pause(); a.currentTime = Math.max(0, ms - at); local.add(a); });
+    });
+    document.getAnimations().forEach(function (a) { if (!local.has(a)) { a.pause(); a.currentTime = ms; } });
+    document.querySelectorAll('[data-count-to]').forEach(function (el) {
+      var at = parseFloat(el.dataset.at || '0') * 1000, dur = parseFloat(el.dataset.dur || '2') * 1000;
+      var to = parseFloat(el.dataset.countTo), p = Math.min(1, Math.max(0, (ms - at) / dur));
+      el.textContent = fmt(to * (1 - Math.pow(1 - p, 3)), el.dataset.decimals);
+    });
+  };
+
+  /* В браузере без рендера сцена проигрывается сама. */
+  if (!navigator.webdriver) {
+    var start = null;
+    function tick(now) { if (start === null) start = now; window.lucidSeek(now - start); requestAnimationFrame(tick); }
+    try { window.lucidPrepare(); } catch (e) { console.error(e.message); }
+    requestAnimationFrame(tick);
+  }
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="ru" data-preset="editorial-dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Пробник стилей — lucid</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=Spectral:ital,wght@0,400;0,500;0,600;1,400&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;1,8..60,400&family=Inter+Tight:wght@300;400;500;700;800&family=Rubik:wght@400;600;800&family=Literata:ital,opsz,wght@0,7..72,400;0,7..72,600;1,7..72,400&family=Oswald:wght@500;700&family=PT+Serif:ital,wght@0,400;0,700;1,400&family=Ubuntu+Mono:wght@400;700&family=IBM+Plex+Sans:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root[data-preset="editorial-dark"] {
+  --bg: #0d0f12; --bg-2: #14171c; --bg-3: #1a1e25; --ink: #ededeb; --ink-dim: #b8b4ad; --muted: #8c8880;
+  --accent: #d97757; --accent-2: #f0916d; --ok: #88b88a; --warn: #d4a85b; --err: #c87171; --rule: #1f2530;
+  --display: 'Playfair Display', Georgia, serif; --body: 'Spectral', Georgia, serif; --mono: 'JetBrains Mono', monospace; --radius: 6px; --rule-w: 1px;
+}
+:root[data-preset="editorial-light"] {
+  --bg: #f7f4ec; --bg-2: #efeadc; --bg-3: #e8e2d0; --ink: #1a1812; --ink-dim: #5e5750; --muted: #6f685e;
+  --accent: #a84a30; --accent-2: #c1573a; --ok: #4a7c4a; --warn: #b8862b; --err: #b04141; --rule: #d8d1bf;
+  --display: 'Playfair Display', Georgia, serif; --body: 'Source Serif 4', Georgia, serif; --mono: 'JetBrains Mono', monospace; --radius: 4px; --rule-w: 1px;
+}
+:root[data-preset="swiss-grid"] {
+  --bg: #ffffff; --bg-2: #f5f5f5; --bg-3: #ececec; --ink: #0a0a0a; --ink-dim: #3a3a3a; --muted: #6e6e6e;
+  --accent: #c62828; --accent-2: #d33; --ok: #2e7d32; --warn: #c77c00; --err: #d33; --rule: #0a0a0a;
+  --display: 'Inter Tight', Helvetica, sans-serif; --body: 'Inter Tight', Helvetica, sans-serif; --mono: 'JetBrains Mono', monospace; --radius: 0px; --rule-w: 2px;
+}
+:root[data-preset="solarpunk"] {
+  --bg: #f5f0e1; --bg-2: #ebe3cb; --bg-3: #e2d8ba; --ink: #2a2418; --ink-dim: #5a4f3a; --muted: #6b6049;
+  --accent: #3f6a31; --accent-2: #e6a23c; --ok: #4a7c3a; --warn: #b87420; --err: #c9633a; --rule: #d4c8a8;
+  --display: 'Rubik', sans-serif; --body: 'Literata', Georgia, serif; --mono: 'JetBrains Mono', monospace; --radius: 14px; --rule-w: 1px;
+}
+:root[data-preset="brutalist"] {
+  --bg: #f4f1e8; --bg-2: #ffffff; --bg-3: #e9e4d6; --ink: #0a0a0a; --ink-dim: #222; --muted: #555;
+  --accent: #c0392b; --accent-2: #d4ff00; --ok: #0a0a0a; --warn: #e53e3e; --err: #e53e3e; --rule: #0a0a0a;
+  --display: 'Oswald', Impact, sans-serif; --body: 'PT Serif', Georgia, serif; --mono: 'Ubuntu Mono', monospace; --radius: 0px; --rule-w: 3px;
+}
+:root[data-preset="terminal"] {
+  --bg: #0a0e0a; --bg-2: #14181a; --bg-3: #1a201c; --ink: #c0d8b8; --ink-dim: #8fa88a; --muted: #7d9a77;
+  --accent: #58ff3a; --accent-2: #ffb84a; --ok: #58ff3a; --warn: #ffb84a; --err: #ff4a4a; --rule: #1f2a1a;
+  --display: 'Ubuntu Mono', monospace; --body: 'IBM Plex Sans', sans-serif; --mono: 'JetBrains Mono', monospace; --radius: 0px; --rule-w: 1px;
+}
+
+* { box-sizing: border-box; }
+body { margin: 0; background: var(--bg); color: var(--ink); font: 400 18px/1.6 var(--body); transition: background .2s, color .2s; }
+.read { max-width: 680px; margin: 0 auto; padding: 0 24px; }
+.wide { max-width: 1240px; margin: 0 auto; padding: 0 32px; }
+
+.picker { position: sticky; top: 0; z-index: 10; background: var(--bg-2); border-bottom: var(--rule-w) solid var(--rule); }
+.picker .wide { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; padding: 12px 24px; }
+.picker button { font: 500 12px var(--mono); padding: 8px 12px; border: var(--rule-w) solid var(--rule); background: transparent; color: var(--ink-dim); border-radius: var(--radius); cursor: pointer; }
+.picker button.active { color: var(--accent); border-color: var(--accent); }
+.picker .say { margin-left: auto; font: 400 12px var(--mono); color: var(--muted); }
+.picker .say b { color: var(--ink); font-weight: 500; }
+.picker .desc { flex-basis: 100%; font: 400 13px var(--mono); color: var(--muted); }
+
+header.hero { padding: 80px 0 64px; }
+.hero-grid { display: grid; grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr); gap: 56px; align-items: end; }
+.eyebrow { font: 500 12px var(--mono); letter-spacing: .12em; text-transform: uppercase; color: var(--accent); margin-bottom: 16px; }
+h1 { margin: 0; font: 700 clamp(36px, 4.6vw, 84px)/1.02 var(--display); letter-spacing: -.015em; }
+h1 em { font-style: italic; color: var(--accent); }
+.lead { font-size: clamp(19px, 2vw, 23px); line-height: 1.45; margin: 0 0 12px; }
+.meta { font: 400 13px var(--mono); color: var(--muted); }
+
+section.block { padding: 64px 0; border-top: var(--rule-w) solid var(--rule); }
+.block-grid { display: grid; grid-template-columns: minmax(280px, 1fr) minmax(0, 2fr); gap: 56px; align-items: start; }
+.block-head { display: flex; align-items: baseline; gap: 16px; margin-bottom: 24px; }
+.block-num { font: italic 400 clamp(26px, 4vw, 40px)/1 var(--display); color: var(--accent); }
+h2 { margin: 0; font: 700 clamp(24px, 3.4vw, 40px)/1.1 var(--display); letter-spacing: -.01em; }
+.tag { display: inline-block; font: 500 12px var(--mono); letter-spacing: .06em; text-transform: uppercase; padding: 3px 8px; border: var(--rule-w) solid var(--warn); border-radius: var(--radius); color: var(--warn); vertical-align: middle; margin-left: 10px; }
+.visual { margin: 0; }
+.visual svg { width: 100%; height: auto; display: block; }
+.caption { margin: 0; max-width: 680px; }
+.caption b { font-weight: 600; }
+details.source { margin-top: 18px; max-width: 680px; }
+details.source summary { cursor: pointer; font: 500 13px var(--mono); color: var(--muted); list-style: none; }
+details.source summary::before { content: '› '; }
+details.source[open] summary::before { content: '⌄ '; }
+details.source blockquote { margin: 10px 0 0; padding: 10px 16px; border-left: 2px solid var(--accent); color: var(--ink-dim); font-style: italic; }
+details.source cite { display: block; margin-top: 6px; font: 400 12px var(--mono); color: var(--muted); font-style: normal; }
+
+.bars text { font: 500 19px var(--mono); fill: var(--ink-dim); }
+.bars rect { fill: var(--accent); }
+.bars .axis { stroke: var(--rule); stroke-width: 2; }
+.bars .base { fill: var(--muted); }
+
+.slider { display: grid; gap: 12px; padding: 16px 0; max-width: 680px; }
+.slider label { display: flex; justify-content: space-between; font: 500 13px var(--mono); color: var(--muted); }
+.slider output { color: var(--ink); }
+input[type=range] { width: 100%; accent-color: var(--accent); }
+.readout { font: 700 clamp(34px, 5vw, 60px)/1 var(--display); color: var(--accent); font-variant-numeric: tabular-nums; }
+.readout small { font: 400 14px var(--mono); color: var(--muted); margin-left: 10px; }
+
+table { width: 100%; border-collapse: collapse; font-size: 16px; max-width: 680px; }
+th, td { text-align: left; padding: 9px 12px; border-bottom: var(--rule-w) solid var(--rule); }
+th { font: 500 12px var(--mono); letter-spacing: .06em; text-transform: uppercase; color: var(--muted); }
+td.num { font-family: var(--mono); font-variant-numeric: tabular-nums; }
+td.diff { color: var(--accent); font-weight: 600; }
+
+.steps { max-width: 680px; padding: 18px 20px; background: var(--bg-2); border: var(--rule-w) solid var(--rule); border-radius: var(--radius); }
+.steps .step { display: none; }
+.steps .step.current { display: block; }
+.steps .step h3 { margin: 0 0 6px; font: 600 20px var(--display); }
+.steps .step p { margin: 0; color: var(--ink-dim); }
+.steps-nav { display: flex; align-items: center; gap: 12px; margin-top: 14px; font: 500 13px var(--mono); color: var(--muted); }
+.steps-nav button { font: 500 13px var(--mono); padding: 7px 12px; border: var(--rule-w) solid var(--rule); background: var(--bg); color: var(--ink); border-radius: var(--radius); cursor: pointer; }
+.steps-nav button:disabled { opacity: .4; cursor: default; }
+
+section.tail { padding: 56px 0 96px; border-top: var(--rule-w) solid var(--rule); }
+section.tail h2 { font-size: clamp(22px, 3vw, 30px); margin-bottom: 16px; }
+
+/* Штрихи пресетов */
+:root[data-preset="brutalist"] h1, :root[data-preset="brutalist"] h2 { text-transform: uppercase; letter-spacing: 0; }
+:root[data-preset="brutalist"] h1 em { font-style: normal; background: var(--accent-2); color: var(--ink); padding: 0 .1em; }
+:root[data-preset="terminal"] h1, :root[data-preset="terminal"] h2 { text-shadow: 0 0 8px var(--accent); font-weight: 700; }
+:root[data-preset="terminal"] body::after, :root[data-preset="terminal"] .scan { content: ''; position: fixed; inset: 0; pointer-events: none; z-index: 99; background: repeating-linear-gradient(0deg, transparent, transparent 3px, rgba(0,0,0,.12) 3px, rgba(0,0,0,.12) 4px); }
+:root:not([data-preset="terminal"]) .scan { display: none; }
+:root[data-preset="swiss-grid"] h1 { font-weight: 800; } :root[data-preset="swiss-grid"] h2 { font-weight: 700; }
+:root[data-preset="solarpunk"] header.hero { background: radial-gradient(circle at 85% 15%, rgba(230,162,60,.18), transparent 45%); }
+
+@media (max-width: 840px) { .visual svg text { font-size: 30px; } .visual svg.bars text { font-size: 40px; } /* подписи внутри SVG масштабируются вместе с ним */ .block-head { flex-direction: column; gap: 4px; } .picker .say { margin-left: 0; } .hero-grid, .block-grid { grid-template-columns: 1fr; gap: 24px; } }
+</style>
+</head>
+<body>
+<div class="scan"></div>
+
+<div class="picker">
+  <div class="wide">
+    <button data-preset="editorial-dark">editorial-dark</button>
+    <button data-preset="editorial-light">editorial-light</button>
+    <button data-preset="swiss-grid">swiss-grid</button>
+    <button data-preset="solarpunk">solarpunk</button>
+    <button data-preset="brutalist">brutalist</button>
+    <button data-preset="terminal">terminal</button>
+    <span class="say">Выбран: <b id="chosen">editorial-dark</b></span>
+    <span class="desc" id="desc"></span>
+  </div>
+</div>
+
+<header class="hero">
+  <div class="wide hero-grid">
+    <div>
+      <div class="eyebrow">Пробник стиля · одно объяснение, шесть стилей</div>
+      <h1>Вклад растёт <em>по кривой</em>, а не по прямой</h1>
+    </div>
+    <div>
+      <p class="lead">Проценты начисляются на проценты. Поэтому за двадцать лет сумма растёт не вдвое, а почти в семь раз.</p>
+      <p class="meta">4 блока · пример-пробник, числа расчётные · так выглядит каждое объяснение lucid</p>
+    </div>
+  </div>
+</header>
+
+<section class="block" id="b1">
+  <div class="wide block-grid">
+    <div class="block-text">
+    <div class="block-head"><span class="block-num">01</span><h2>Каждый год прибавка больше предыдущей</h2></div>
+    <p class="caption">Ставка одна и та же, <b>10 процентов в год</b>. Но база растёт, поэтому столбцы ускоряются вверх.</p>
+    <details class="source"><summary>Откуда это</summary><blockquote>«Сумма через n лет: A = P × (1 + r)ⁿ, где P — начальная сумма, r — ставка за период.»<cite>Формула сложного процента, пример-пробник</cite></blockquote></details>
+    </div>
+    <div class="visual">
+      <svg class="bars" viewBox="0 0 1000 320" xmlns="http://www.w3.org/2000/svg" aria-label="Рост 100 условных единиц при 10 процентах годовых за десять лет">
+        <line class="axis" x1="60" y1="280" x2="980" y2="280"/>
+        <g id="barset"></g>
+      </svg>
+    </div>
+  </div>
+</section>
+
+<section class="block" id="b2">
+  <div class="wide block-grid">
+    <div class="block-text">
+    <div class="block-head"><span class="block-num">02</span><h2>Срок важнее ставки: подвигай годы</h2></div>
+    <p class="caption">До десяти лет кривая почти прямая. После двадцати каждый год прибавляет больше, чем вся первая пятилетка.</p>
+    <details class="source"><summary>Откуда это</summary><blockquote>«A = 100 × 1,1ⁿ»<cite>Та же формула, подставлены P = 100 и r = 0,1</cite></blockquote></details>
+    </div>
+    <div class="visual slider">
+      <label>Лет на вкладе <output id="years-out">10</output></label>
+      <input type="range" id="years" min="1" max="30" value="10">
+      <div class="readout"><span id="amount">259</span><small>из 100 при 10 % годовых</small></div>
+    </div>
+  </div>
+</section>
+
+<section class="block" id="b3">
+  <div class="wide block-grid">
+    <div class="block-text">
+    <div class="block-head"><span class="block-num">03</span><h2>Простой и сложный процент расходятся со временем</h2></div>
+    <p class="caption">Простой процент считается от начальной суммы, сложный от текущей. Первые годы разница мала, к двадцатому году она больше самого вклада.</p>
+    <details class="source"><summary>Откуда это</summary><blockquote>«Простой: A = P × (1 + r × n). Сложный: A = P × (1 + r)ⁿ.»<cite>Две формулы, пример-пробник</cite></blockquote></details>
+    </div>
+    <div class="visual">
+      <table>
+        <thead><tr><th>Лет</th><th>Простой</th><th>Сложный</th><th>Разница</th></tr></thead>
+        <tbody>
+          <tr><td class="num">5</td><td class="num">150</td><td class="num">161</td><td class="num diff">+11</td></tr>
+          <tr><td class="num">10</td><td class="num">200</td><td class="num">259</td><td class="num diff">+59</td></tr>
+          <tr><td class="num">20</td><td class="num">300</td><td class="num">673</td><td class="num diff">+373</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<section class="block" id="b4">
+  <div class="wide block-grid">
+    <div class="block-text">
+    <div class="block-head"><span class="block-num">04</span><h2>Как это работает по шагам <span class="tag">аналогия</span></h2></div>
+    <p class="caption">Снежный ком: каждый оборот он собирает снег уже со всей своей поверхности, а не с той, что была в начале.</p>
+    <details class="source"><summary>Откуда это</summary><blockquote>Сравнение со снежным комом — аналогия, её нет в формуле.<cite>Пометка «аналогия» стоит на блоке</cite></blockquote></details>
+    </div>
+    <div class="visual steps">
+      <div class="step"><h3>Год первый</h3><p>На счету 100. Банк начисляет 10 процентов от 100, это 10. Стало 110.</p></div>
+      <div class="step"><h3>Год второй</h3><p>На счету уже 110. Банк начисляет 10 процентов от 110, это 11. Стало 121.</p></div>
+      <div class="step"><h3>Год третий</h3><p>На счету 121. Начисление 12,1. Стало 133,1. Прибавка выросла с 10 до 12,1, хотя ставка не менялась.</p></div>
+    </div>
+  </div>
+</section>
+
+
+<script>
+(function () {
+  var DESC = {
+    'editorial-dark': 'Тёмная журнальная вёрстка, serif, один тёплый акцент. Умолчание.',
+    'editorial-light': 'Бумага и чернила, спокойный академический тон.',
+    'swiss-grid': 'Сетка, чёрные линии, один красный акцент, ничего лишнего.',
+    'solarpunk': 'Тёплая органика, зелёный и золотой, скругления.',
+    'brutalist': 'Тяжёлые рамки, капитель, конфликт красного и кислотного.',
+    'terminal': 'Фосфорный экран, моноширинные заголовки, строчная развёртка, для тем про код и системы.'
+  };
+  var root = document.documentElement;
+  var buttons = document.querySelectorAll('.picker button');
+  function setPreset(name) {
+    root.dataset.preset = name;
+    document.getElementById('chosen').textContent = name;
+    document.getElementById('desc').textContent = DESC[name] || '';
+    buttons.forEach(function (b) { b.classList.toggle('active', b.dataset.preset === name); });
+    try { localStorage.setItem('lucid-sampler-preset', name); } catch (e) {}
+  }
+  buttons.forEach(function (b) { b.addEventListener('click', function () { setPreset(b.dataset.preset); }); });
+  var saved = null;
+  try { saved = localStorage.getItem('lucid-sampler-preset'); } catch (e) {}
+  setPreset(saved && DESC[saved] ? saved : 'editorial-dark');
+
+  /* Столбцы: 100 × 1,1ⁿ за десять лет, шкала от нуля */
+  var g = document.getElementById('barset'), max = 100 * Math.pow(1.1, 10), w = 920 / 11;
+  var html = '';
+  for (var n = 0; n <= 10; n++) {
+    var v = 100 * Math.pow(1.1, n), h = 240 * v / max, x = 60 + n * w + 8;
+    html += '<rect x="' + x + '" y="' + (280 - h) + '" width="' + (w - 16) + '" height="' + h + '"' + (n === 0 ? ' class="base"' : '') + '/>';
+    html += '<text x="' + (x + (w - 16) / 2) + '" y="' + (272 - h) + '" text-anchor="middle">' + Math.round(v) + '</text>';
+    html += '<text x="' + (x + (w - 16) / 2) + '" y="302" text-anchor="middle">' + n + '</text>';
+  }
+  g.innerHTML = html;
+
+  /* Ползунок */
+  var years = document.getElementById('years');
+  function upd() {
+    document.getElementById('years-out').textContent = years.value;
+    document.getElementById('amount').textContent = Math.round(100 * Math.pow(1.1, years.value)).toLocaleString('ru-RU');
+  }
+  years.addEventListener('input', upd); upd();
+
+  /* Шаги */
+  document.querySelectorAll('.steps').forEach(function (rootEl) {
+    var steps = rootEl.querySelectorAll('.step'), i = 0, nav = document.createElement('div');
+    nav.className = 'steps-nav';
+    nav.innerHTML = '<button data-prev>← назад</button><span data-pos></span><button data-next>дальше →</button>';
+    rootEl.appendChild(nav);
+    function show() {
+      steps.forEach(function (s, k) { s.classList.toggle('current', k === i); });
+      nav.querySelector('[data-pos]').textContent = (i + 1) + ' / ' + steps.length;
+      nav.querySelector('[data-prev]').disabled = i === 0;
+      nav.querySelector('[data-next]').disabled = i === steps.length - 1;
+    }
+    nav.querySelector('[data-prev]').addEventListener('click', function () { if (i > 0) { i--; show(); } });
+    nav.querySelector('[data-next]').addEventListener('click', function () { if (i < steps.length - 1) { i++; show(); } });
+    show();
+  });
+})();
+</script>
+</body>
+</html>

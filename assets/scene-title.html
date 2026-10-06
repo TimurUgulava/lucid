@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="ru" data-preset="editorial-dark">
+<head>
+<meta charset="UTF-8">
+<title>Титул — lucid</title>
+<!-- Шрифты: ссылка из пресета профиля -->
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=Spectral:ital,wght@0,400;0,500;0,600;1,400;1,500&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+/* Токены пресета и шкала: те же, что в scene-skeleton.html. Заменить блоком :root из пресета профиля. */
+:root {
+  --bg: #0d0f12; --bg-2: #14171c; --bg-3: #1a1e25;
+  --ink: #ededeb; --ink-dim: #b8b4ad; --muted: #8c8880;
+  --accent: #d97757; --accent-2: #f0916d;
+  --ok: #88b88a; --warn: #d4a85b; --err: #c87171;
+  --rule: #1f2530;
+  --display: 'Playfair Display', Georgia, serif;
+  --body: 'Spectral', Georgia, serif;
+  --mono: 'JetBrains Mono', monospace;
+  --radius: 6px; --rule-w: 1px;
+}
+:root {
+  --t-title: 120px; --t-h: 84px; --t-copy: 38px; --t-note: 30px; --t-meta: 26px;
+  --display-weight: 700;
+  --fade: 440ms; --fade-rise: 12px; --caption-pause: 480ms;
+  --pad-x: 96px; --pad-top: 64px; --pad-bottom: 48px;
+  --stroke: 5px;
+}
+* { box-sizing: border-box; }
+html, body { margin: 0; width: 1920px; height: 1080px; overflow: hidden; background: var(--bg); color: var(--ink); font: 500 var(--t-copy)/1.35 var(--body); -webkit-font-smoothing: antialiased; }
+main.scene { position: relative; width: 1920px; height: 1080px; overflow: hidden; }
+h1, p { margin: 0; }
+.meta { position: absolute; top: var(--pad-top); left: var(--pad-x); display: flex; align-items: center; gap: 22px; font: 500 var(--t-meta)/1 var(--mono); letter-spacing: .08em; text-transform: uppercase; color: var(--accent); }
+.meta::before { content: ''; width: 44px; height: 4px; background: currentColor; }
+.source { position: absolute; left: var(--pad-x); bottom: var(--pad-bottom); font: 500 var(--t-meta)/1 var(--body); color: var(--muted); }
+.folio { position: absolute; right: var(--pad-x); bottom: var(--pad-bottom); font: 500 var(--t-meta)/1 var(--mono); color: var(--muted); font-variant-numeric: tabular-nums; }
+
+/* Титульник: текст слева, предметный образ справа на цветной плоскости */
+.layout-cover .field { position: absolute; left: 1035px; top: 0; width: 885px; height: 1080px; background: var(--accent); border-radius: calc(var(--radius) * 6) 0 0 calc(var(--radius) * 6); }
+.layout-cover h1 { position: absolute; left: var(--pad-x); top: 240px; width: 880px; font: var(--display-weight) var(--t-title)/1.02 var(--display); letter-spacing: -.03em; text-wrap: balance; }
+.layout-cover h1 em { font-style: italic; color: var(--accent); }
+.layout-cover .deck { position: absolute; left: var(--pad-x); top: 740px; width: 860px; font: 500 46px/1.3 var(--body); color: var(--ink); }
+.layout-cover .stage { position: absolute; left: 985px; top: 108px; width: 850px; height: 822px; }
+.layout-cover .stage svg { display: block; width: 100%; height: 100%; overflow: visible; }
+.layout-cover .hero-label { position: absolute; left: 1140px; top: 937px; font: 600 34px/1 var(--body); color: var(--bg); }
+.layout-cover .folio { color: var(--bg); }
+
+.draw { stroke-dasharray: 2000; stroke-dashoffset: 2000; animation: draw 2s linear forwards; animation-play-state: paused; }
+@keyframes draw { to { stroke-dashoffset: 0; } }
+[data-at] { opacity: 0; will-change: opacity, transform; }
+svg [data-at] { transform: none; }
+</style>
+</head>
+<body>
+<main class="scene layout-cover">
+  <div class="field" data-decor></div>
+  <p class="meta">Объяснение</p>
+  <h1>Главный вывод <em>одной фразой</em></h1>
+  <p class="deck">Зачем тебе: что станет понятно<br>или что можно будет делать</p>
+
+  <!-- Один предметный образ по теме: лист источника и схема, предмет из мира темы. -->
+  <section class="stage" id="stage">
+    <svg viewBox="0 0 850 822" xmlns="http://www.w3.org/2000/svg">
+      <g id="cover-material" data-at-word="3">
+        <g transform="rotate(-12 352 346)">
+          <rect x="60" y="100" width="525" height="612" rx="18" fill="var(--bg-3)" stroke="var(--ink)" stroke-width="3"/>
+          <path d="M111 175H395" stroke="var(--ink)" stroke-width="17"/>
+          <path d="M111 230H506M111 260H475M111 290H510M111 320H360" stroke="var(--muted)" stroke-width="8"/>
+          <rect x="108" y="372" width="255" height="30" fill="var(--accent)"/>
+          <path d="M111 449H492M111 479H420M111 509H507M111 539H456M111 569H331" stroke="var(--muted)" stroke-width="8"/>
+          <text x="110" y="138" fill="var(--ink)" style="font: 600 28px var(--body)">Исходный материал</text>
+        </g>
+      </g>
+      <g id="cover-scheme" data-at-word="8">
+        <g transform="rotate(8 521 502)">
+          <rect x="282" y="254" width="525" height="515" rx="18" fill="var(--ink)" stroke="var(--ink)" stroke-width="3"/>
+          <text x="332" y="326" fill="var(--bg)" style="font: 700 36px var(--body)">Понятная схема</text>
+          <path d="M545 450V501M407 501H683M407 501V554M683 501V554" stroke="var(--bg)" stroke-width="5" fill="none"/>
+          <rect x="454" y="384" width="182" height="68" rx="16" fill="var(--accent)"/>
+          <rect x="332" y="554" width="151" height="97" rx="16" fill="var(--bg)"/>
+          <rect x="608" y="554" width="151" height="97" rx="16" fill="var(--bg)"/>
+          <path d="M479 418H611" stroke="var(--ink)" stroke-width="8"/>
+          <path d="M361 589H452M361 615H422M637 589H728M637 615H698" stroke="var(--ink)" stroke-width="7"/>
+        </g>
+      </g>
+    </svg>
+  </section>
+  <p class="hero-label" data-role="caption" data-at="0" data-after="cover-material,cover-scheme">От материала к пониманию</p>
+
+  <p class="source">Источник — название материала</p>
+  <p class="folio">01 / 09</p>
+</main>
+
+<script>
+/* Тот же контракт времени, что в scene-skeleton.html: lucidPrepare() и lucidSeek(ms). */
+(function () {
+  var css = getComputedStyle(document.documentElement);
+  var FADE = parseFloat(css.getPropertyValue('--fade')) || 0;
+  var PAUSE = parseFloat(css.getPropertyValue('--caption-pause')) || 0;
+  var RISE = parseFloat(css.getPropertyValue('--fade-rise')) || 0;
+  if (/ms\s*$/.test(css.getPropertyValue('--fade')) === false && FADE < 10) FADE = FADE * 1000;
+  if (/ms\s*$/.test(css.getPropertyValue('--caption-pause')) === false && PAUSE < 10) PAUSE = PAUSE * 1000;
+  window.lucid = { fadeMs: FADE, pauseMs: PAUSE };
+  function ease(p) { return 1 - Math.pow(1 - p, 4); }
+  function fail(msg) { throw new Error('lucid: ' + msg); }
+  function describe(el) { return '<' + el.tagName.toLowerCase() + (el.id ? '#' + el.id : '') + '> «' + (el.textContent || '').trim().slice(0, 40) + '»'; }
+  window.lucidPrepare = function () {
+    var timing = window.lucidTiming || null;
+    var all = Array.prototype.slice.call(document.querySelectorAll('[data-at], [data-at-word], [data-after]'));
+    all.forEach(function (el) {
+      if (el.dataset.atBase === undefined) el.dataset.atBase = el.dataset.at === undefined ? '' : el.dataset.at;
+      var base = el.dataset.atBase === '' ? 0 : parseFloat(el.dataset.atBase);
+      if (el.dataset.atWord !== undefined) {
+        var w = parseFloat(el.dataset.atWord || '0');
+        var sec = timing && timing.words > 0 ? w / timing.words * timing.seconds : w / 2.5;
+        base = Math.max(base, Math.max(0, sec - 0.3));
+      }
+      el.dataset.atSem = base.toFixed(4); el.dataset.at = base.toFixed(4); delete el.dataset.atResolved;
+    });
+    var stack = [];
+    function visibleAt(el) {
+      if (el.dataset.atResolved !== undefined) return parseFloat(el.dataset.atResolved);
+      if (stack.indexOf(el) !== -1) fail('цикл зависимостей у ' + describe(el));
+      stack.push(el);
+      var own = el.dataset.atSem !== undefined ? parseFloat(el.dataset.atSem) : 0;
+      if (el.dataset.after) {
+        var deps = [];
+        el.dataset.after.split(',').forEach(function (ref) {
+          ref = ref.trim(); if (!ref) return;
+          if (ref.charAt(0) === '@') {
+            var box = document.getElementById(ref.slice(1));
+            if (!box) fail('контейнер ' + ref + ' не найден для ' + describe(el));
+            Array.prototype.forEach.call(box.querySelectorAll('[data-at]'), function (d) { if (d !== el && !el.contains(d)) deps.push(d); });
+          } else {
+            var d = document.getElementById(ref);
+            if (!d) fail('объект #' + ref + ' не найден для ' + describe(el));
+            deps.push(d);
+          }
+        });
+        var ready = 0;
+        deps.forEach(function (d) {
+          var cs = getComputedStyle(d);
+          if (cs.display === 'none' || cs.visibility === 'hidden') fail('объект ' + describe(d) + ' скрыт, подпись ' + describe(el) + ' ждёт его напрасно');
+          ready = Math.max(ready, visibleAt(d) + (d.dataset.at !== undefined ? FADE / 1000 : 0));
+        });
+        own = Math.max(own, ready + PAUSE / 1000);
+      }
+      for (var p = el.parentElement; p; p = p.parentElement) { if (p.dataset && p.dataset.at !== undefined) { own = Math.max(own, visibleAt(p)); break; } }
+      el.dataset.at = own.toFixed(4); el.dataset.atResolved = own.toFixed(4); stack.pop(); return own;
+    }
+    all.forEach(visibleAt);
+    document.querySelectorAll('[data-role="caption"]').forEach(function (el) { if (!el.dataset.after) fail('подпись без зависимостей: ' + describe(el) + ' — добавь data-after'); });
+    document.getAnimations().forEach(function (a) { a.pause(); a.currentTime = 0; });
+    window.lucidSeek(0);
+  };
+  window.lucidSeek = function (ms) {
+    var local = new Set();
+    document.querySelectorAll('[data-at]').forEach(function (el) {
+      var at = parseFloat(el.dataset.at || '0') * 1000;
+      var off = el.dataset.off ? parseFloat(el.dataset.off) * 1000 : Infinity;
+      var p = FADE > 0 ? Math.min(1, Math.max(0, (ms - at) / FADE)) : (ms >= at ? 1 : 0);
+      var e = ease(p); if (ms >= off) e = 0.18 * e;
+      el.style.opacity = e;
+      if (el.namespaceURI !== 'http://www.w3.org/2000/svg' && RISE > 0) el.style.transform = 'translateY(' + (RISE * (1 - e)).toFixed(2) + 'px)';
+      el.getAnimations({ subtree: true }).forEach(function (a) { a.pause(); a.currentTime = Math.max(0, ms - at); local.add(a); });
+    });
+    document.getAnimations().forEach(function (a) { if (!local.has(a)) { a.pause(); a.currentTime = ms; } });
+  };
+  if (!navigator.webdriver) {
+    var start = null;
+    function tick(now) { if (start === null) start = now; window.lucidSeek(now - start); requestAnimationFrame(tick); }
+    try { window.lucidPrepare(); } catch (e) { console.error(e.message); }
+    requestAnimationFrame(tick);
+  }
+})();
+</script>
+</body>
+</html>

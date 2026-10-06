@@ -1,0 +1,10 @@
+.DS_Store
+__pycache__/
+*.pyc
+calibration/unprocessed/*
+!calibration/unprocessed/.gitkeep
+calibration/processed/
+evals/fixtures/
+lucid/
+.render/
+.shots/
